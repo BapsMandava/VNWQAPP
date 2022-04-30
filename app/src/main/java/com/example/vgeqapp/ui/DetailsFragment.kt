@@ -47,6 +47,7 @@ class DetailsFragment : Fragment() {
             binding.txtMagnitude.text = getString(R.string.magnitude) +" "+ it?.magnitude
             binding.txtDateTime.text = getString(R.string.date_and_time) +" "+ it?.date
             binding.txtPlace.text = getString(R.string.Place) +" "+ it?.place
+            binding.txtDepth.text  = getString(R.string.depth) +" "+ it?.depth.toString()
         })
     }
 

@@ -23,7 +23,10 @@ object Transform {
                 magnitude = it.properties.mag.toString(),
             place = it.properties.place,
             date = it.properties.updated.convertLongToTime(),
-            indicator = colorCode))
+            indicator = colorCode,
+            longitude = it.geometry.coordinates.get(0),
+            latitude = it.geometry.coordinates.get(1),
+            depth = it.geometry.coordinates.get(2)))
         }
         return eqDataList
     }

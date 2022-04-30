@@ -5,8 +5,8 @@ data class EQData(
     var magnitude:String? = "",
     var place: String? = "",
     var date: String? = "",
-    var longitude: String? = "",
-    var latitude: String? = "",
-    var depth: String? = "",
+    var longitude: Double,
+    var latitude: Double,
+    var depth: Double,
     var indicator: Int? = 0
 )
