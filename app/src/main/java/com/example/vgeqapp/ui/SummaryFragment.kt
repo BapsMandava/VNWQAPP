@@ -1,60 +1,93 @@
 package com.example.vgeqapp.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.vgeqapp.R
+import com.example.vgeqapp.api.NetworkResult
+import com.example.vgeqapp.databinding.FragmentSummaryBinding
+import com.example.vgeqapp.viewmodel.EQViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SummaryFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+@AndroidEntryPoint
 class SummaryFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private var _binding: FragmentSummaryBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var viewmodel: EQViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_summary, container, false)
+        _binding = FragmentSummaryBinding.inflate(inflater, container, false)
+        viewmodel = ViewModelProvider(this).get(EQViewModel::class.java)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SummaryFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SummaryFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setRecyclerView()
+        getLatestEQData()
+        observeLatestEQData()
+    }
+
+    fun setRecyclerView() {
+        binding.rvEqSummaryList.layoutManager = LinearLayoutManager(activity)
+    }
+
+    fun getLatestEQData() {
+        viewmodel.getLatestEQData()
+    }
+
+    fun observeLatestEQData() {
+        viewmodel.getLatestEQData.observe(viewLifecycleOwner, { response ->
+            when (response) {
+                is NetworkResult.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    response.data?.let {
+                        binding.rvEqSummaryList.adapter = EQSummaryAdapter(it,activity, {
+                            naviagtetoDetails(it)
+                        }
+                        )
+                    }
+                }
+                is NetworkResult.Error -> {
+                    binding.progressBar.visibility = View.GONE
+
+                    Toast.makeText(
+                        requireContext(),
+                        response.message.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                is NetworkResult.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
                 }
             }
+
+        })
     }
+
+    fun naviagtetoDetails(id: String) {
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
 }
