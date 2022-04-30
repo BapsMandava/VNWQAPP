@@ -31,8 +31,8 @@ class EQSummaryAdapter(private val eqdataSumamryList:List<EQData>,
         EqLitsItemBinding.bind(holder.itemView).apply {
             data.indicator?.let { context?.getColor(it) }
                 ?.let { viewIndicator.setBackgroundColor(it) }
-            txtMagnitude.text = "Magnitude: " + data.magnitude
-            txtPlace.text  = "Place: " + data.place
+            txtMagnitude.text = context?.getString(R.string.magnitude) + data.magnitude
+            txtPlace.text  = context?.getString(R.string.Place) + data.place
             itemLayout.setOnClickListener {
                 data.id?.let { it1 -> onclick.invoke(it1) }
             }

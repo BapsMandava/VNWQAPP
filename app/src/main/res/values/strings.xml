@@ -2,4 +2,8 @@
     <string name="app_name">VGEQApp</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="magnitude">Magnitude: </string>
+    <string name="date_and_time">Date: </string>
+    <string name="Place">Palce: </string>
 </resources>

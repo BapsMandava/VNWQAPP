@@ -44,9 +44,9 @@ class DetailsFragment : Fragment() {
 
     fun setObservables() {
         viewmodel.getSelectedEQData.observe(viewLifecycleOwner, {
-            binding.txtMagnitude.text = "Magnitude: " + it?.magnitude
-            binding.txtDateTime.text = "Date and Time: "+ it?.date
-            binding.txtPlace.text = "Place: " + it?.place
+            binding.txtMagnitude.text = getString(R.string.magnitude) + it?.magnitude
+            binding.txtDateTime.text = getString(R.string.date_and_time) + it?.date
+            binding.txtPlace.text = getString(R.string.Place) + it?.place
         })
     }
 
