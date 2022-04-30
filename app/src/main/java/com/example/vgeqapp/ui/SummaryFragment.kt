@@ -42,6 +42,7 @@ class SummaryFragment : Fragment() {
         setRecyclerView()
         getLatestEQData()
         observeLatestEQData()
+        setSwipeToRefreshListner()
     }
 
     fun setRecyclerView() {
@@ -54,9 +55,10 @@ class SummaryFragment : Fragment() {
 
     fun observeLatestEQData() {
         viewmodel.getLatestEQData.observe(viewLifecycleOwner, { response ->
+            binding.swipeRefresh.isRefreshing = false
             when (response) {
                 is NetworkResult.Success -> {
-                    binding.progressBar.visibility = View.GONE
+                    //binding.progressBar.visibility = View.GONE
                     response.data?.let {
                         binding.rvEqSummaryList.adapter = EQSummaryAdapter(it,activity, {
                             naviagtetoDetails(it)
@@ -65,7 +67,7 @@ class SummaryFragment : Fragment() {
                     }
                 }
                 is NetworkResult.Error -> {
-                    binding.progressBar.visibility = View.GONE
+                  //  binding.progressBar.visibility = View.GONE
 
                     Toast.makeText(
                         requireContext(),
@@ -75,10 +77,16 @@ class SummaryFragment : Fragment() {
                 }
 
                 is NetworkResult.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
+                 //   binding.progressBar.visibility = View.VISIBLE
                 }
             }
 
+        })
+    }
+
+    fun setSwipeToRefreshListner(){
+        binding.swipeRefresh.setOnRefreshListener({
+            getLatestEQData()
         })
     }
 

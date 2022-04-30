@@ -2,6 +2,7 @@ package com.example.vgeqapp.module
 
 import com.example.vgeqapp.api.EQOkHttpHelper
 import com.example.vgeqapp.api.EQService
+import com.example.vgeqapp.utils.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,7 +19,7 @@ object EQModule {
         eqserviceOKHTTPHelper:EQOkHttpHelper
     ) : EQService {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://earthquake.usgs.gov/earthquakes/")
+            .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(eqserviceOKHTTPHelper.buildOKHttpClient())
             .build()
