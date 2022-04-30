@@ -20,6 +20,10 @@ class EQViewModel @Inject constructor(private val eqRepo:EQRepository) : ViewMod
     val getLatestEQData : LiveData<NetworkResult<List<EQData>?>>
         get()  = _getLatestEQData
 
+    private val _getSelectedEQData :  MutableLiveData<EQData?> = MutableLiveData()
+    val getSelectedEQData : LiveData<EQData?>
+        get()  = _getSelectedEQData
+
     fun getLatestEQData() {
         viewModelScope.launch {
             _getLatestEQData.value = NetworkResult.Loading()
@@ -29,6 +33,15 @@ class EQViewModel @Inject constructor(private val eqRepo:EQRepository) : ViewMod
 
             } catch (e: Exception) {
                 _getLatestEQData.value = NetworkResult.Error(e.message)
+            }
+        }
+    }
+
+    fun setSelectedEQRecord(selectedID:String) {
+        _getLatestEQData.value?.data?.forEach {
+            if(it.id.equals(selectedID)) {
+                _getSelectedEQData.value = it
+                return@forEach
             }
         }
     }

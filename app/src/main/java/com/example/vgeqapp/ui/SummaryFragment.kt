@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.vgeqapp.R
 import com.example.vgeqapp.api.NetworkResult
@@ -32,7 +33,7 @@ class SummaryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSummaryBinding.inflate(inflater, container, false)
-        viewmodel = ViewModelProvider(this).get(EQViewModel::class.java)
+        viewmodel = ViewModelProvider(requireActivity()).get(EQViewModel::class.java)
         return binding.root
     }
 
@@ -82,7 +83,8 @@ class SummaryFragment : Fragment() {
     }
 
     fun naviagtetoDetails(id: String) {
-
+        viewmodel.setSelectedEQRecord(id)
+        findNavController().navigate(R.id.action_navigate_to_details_screen)
     }
 
     override fun onDestroy() {

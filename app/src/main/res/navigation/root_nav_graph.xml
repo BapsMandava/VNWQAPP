@@ -10,6 +10,10 @@
         android:name="com.example.vgeqapp.ui.SummaryFragment"
         tools:layout="@layout/fragment_summary">
 
+        <action
+            android:id="@+id/action_navigate_to_details_screen"
+            app:destination="@+id/details_fragment" />
+
     </fragment>
 
     <fragment
