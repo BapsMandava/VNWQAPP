@@ -11,6 +11,13 @@ This application shows the list of recent earth quakes in the country that are c
 
 "Kotlin Coroutines" - is used for asynchronous data flow.
 
-The whole app is implemented with MVVM architecture, live data is used to communicate data between ViewModel and Activity. DataBinding is also used to show data in MovieDetails View.
+The whole app is implemented with MVVM architecture, live data is used to communicate data between ViewModel and Activity.
 
 Extensions are used for Data and Time.
+
+Navigation Component is used for navigation between fragmnets.
+
+Implemented using Single Activity approch.
+
+SharedViewModel to share data across the fragments.
+
